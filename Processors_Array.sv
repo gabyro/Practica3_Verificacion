@@ -1,15 +1,15 @@
-include Definitions ::*;
+import Definitions ::*;
 
 module Processors_Array(
 	//Input Ports.
 	input clk,
 	input reset,
 	inout start,
-	input v,
-	input Rows_a_FIFO,
+	input [7:0]v,
+	input Rows_a_FIFO Row,
 	
 	//Output Ports.
-	output PROCESSOR_RESULT
+	output PROCESSOR_RESULT result
 
 );
 
@@ -17,14 +17,14 @@ bit REG1Out_2_REG2_wire;
 bit REG2Out_2_REG3_wire;
 bit REG3Out_2_PRO_wire;
 
-bit v_out_PRO1_2_PRO2_wire;
-bit v_out_PRO2_2_PRO3_wire;
-bit v_out_PRO3_2_PRO4_wire;
+bit [7:0]v_out_PRO1_2_PRO2_wire;
+bit [7:0]v_out_PRO2_2_PRO3_wire;
+bit [7:0]v_out_PRO3_2_PRO4_wire;
 
 //---------------------------3 REGISTERS -----------------------------------
 Register
 #(
-	Word_Length (8)
+	.Word_Length (1)
 )
 REG1
 (
@@ -41,7 +41,7 @@ REG1
 
 Register
 #(
-	Word_Length (8)
+	.Word_Length (1)
 )
 REG2
 (
@@ -58,7 +58,7 @@ REG2
 
 Register
 #(
-	Word_Length (8)
+	.Word_Length (1)
 )
 REG3
 (
@@ -70,7 +70,7 @@ REG3
 	.sync_reset(1'b0),
 
 	// Output Ports
-	.Data_Output()
+	.Data_Output(REG3Out_2_PRO_wire)
 );
 
 //---------------------------4 PROCESSORS -----------------------------------
@@ -82,11 +82,11 @@ Processor_module PROCESSOR_1
 	.clk(clk),
 	.reset(reset),
 	.start(start),
-	.a(Rows_a_FIFO.Row1),
+	.a(Row.Row1),
 	.v(v),
 	//Output ports
 	.v_out(v_out_PRO1_2_PRO2_wire),
-	.result(PROCESSOR_RESULT.result_PRO1)
+	.result(result.result_PRO1)
 
 );
 
@@ -98,11 +98,11 @@ Processor_module PROCESSOR_2
 	.clk(clk),
 	.reset(reset),
 	.start(REG1Out_2_REG2_wire),
-	.a(Rows_a_FIFO.Row2),
+	.a(Row.Row2),
 	.v(v_out_PRO1_2_PRO2_wire),
 	//Output ports
 	.v_out(v_out_PRO2_2_PRO3_wire),
-	.result(PROCESSOR_RESULT.result_PRO2)
+	.result(result.result_PRO2)
 
 );
 
@@ -113,11 +113,11 @@ Processor_module PROCESSOR_3
 	.clk(clk),
 	.reset(reset),
 	.start(REG2Out_2_REG3_wire),
-	.a(Rows_a_FIFO.Row3),
+	.a(Row.Row3),
 	.v(v_out_PRO2_2_PRO3_wire),
 	//Output ports
 	.v_out(v_out_PRO3_2_PRO4_wire),
-	.result(PROCESSOR_RESULT.result_PRO3)
+	.result(result.result_PRO3)
 
 );
 
@@ -128,11 +128,11 @@ Processor_module PROCESSOR_4
 	.clk(clk),
 	.reset(reset),
 	.start(REG3Out_2_PRO_wire),
-	.a(Rows_a_FIFO.Row4),
+	.a(Row.Row4),
 	.v(v_out_PRO3_2_PRO4_wire),
 	//Output ports
 	.v_out(),
-	.result(PROCESSOR_RESULT.result_PRO4)
+	.result(result.result_PRO4)
 
 );
 

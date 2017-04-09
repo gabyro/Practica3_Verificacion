@@ -4,22 +4,23 @@ module Processor_module(
 	input clk,
 	input reset,
 	input start,
-	input a,
-	input v,
+	input [7:0]a,
+	input [7:0]v,
 	//Output ports
-	output v_out,
-	output result
+	output [7:0]v_out,
+	output [7:0]result
 
 );
 
-bit REG1out_2_AddMult_wire;
-bit AddMult_out_2_REG1_wire;
+bit [7:0]REG1out_2_AddMult_wire;
+bit [7:0]AddMult_out_2_REG1_wire;
 
 //---------------------------- REGISTER 1 ---------------------------------
 Register
 #(
 	.Word_Length (8)
 )
+Register1
 
 (
 	// Input Ports
@@ -40,7 +41,7 @@ Register
 #(
 	.Word_Length (8)
 )
-Register_Processor
+Register2
 
 (
 	// Input Ports
@@ -54,7 +55,7 @@ Register_Processor
 	.Data_Output(v_out)
 );
 
-assign result = AddOrMult_out_2_MUX_wire;
+assign result = AddMult_out_2_REG1_wire;
 
 
 endmodule
