@@ -3,9 +3,9 @@ package Definitions;
 typedef struct packed{
 	bit Row1;
 	bit Row2;
-	bit Row3; 
+	bit Row3;
 	bit Row4;
-	
+
 } Rows_a_FIFO;
 
 typedef struct packed{
@@ -13,25 +13,16 @@ typedef struct packed{
 	bit result_PRO1;
 	bit result_PRO1;
 	bit result_PRO1;
-	
+
 } PROCESSOR_RESULT;
 
 typedef struct packed{
-	bit enable;
-	bit controlEND;
-	bit synch;
-	bit ready;
-	bit ctrl_stop;
-	
-} SQRT_CONTROL_SIGNALS;
+	bit rst_processor;
+	bit push_result;
+	bit pop_a_v;
+	bit [3:0]processor_number;
 
-typedef struct packed{
-	MULTIPLIER_CONTROL_SIGNALS multiplier;
-	DIVIDER_CONTROL_SIGNALS divider;
-	SQRT_CONTROL_SIGNALS sqrt;
-	
-} CONTROL_SIGNALS;
-
+} PROCESSORS_CONTROL_SIGNALS;
 
 
 localparam MULTIPLIER_CONTROL_LENGHT = 5;
