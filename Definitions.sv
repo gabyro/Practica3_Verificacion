@@ -1,20 +1,6 @@
 package Definitions;
 
 typedef struct packed{
-	bit Row1;
-	bit Row2;
-	bit Row3;
-	bit Row4;
-
-} Rows_a_FIFO;
-
-typedef struct packed{
-	bit result_PRO1;
-	bit result_PRO1;
-	bit result_PRO1;
-	bit result_PRO1;
-
-} PROCESSOR_RESULT;
 
 typedef struct packed{
 	bit rst_processor;
@@ -24,9 +10,21 @@ typedef struct packed{
 
 } PROCESSORS_CONTROL_SIGNALS;
 
+	bit [7:0]Row1;
+	bit [7:0]Row2;
+	bit [7:0]Row3; 
+	bit [7:0]Row4;
+	
+} Rows_a_FIFO;
 
-localparam MULTIPLIER_CONTROL_LENGHT = 5;
-localparam DIVIDER_CONTROL_LENGHT = 5;
+typedef struct packed{
+	bit [7:0]result_PRO1;
+	bit [7:0]result_PRO2;
+	bit [7:0]result_PRO3;
+	bit [7:0]result_PRO4;
+	
+} PROCESSOR_RESULT;
+
 
 // typedef bit [8:0] AdderWithCarry;
 // enum {ZERO, ONE,TWO, THREE} Cases;
