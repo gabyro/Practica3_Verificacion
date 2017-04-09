@@ -1,14 +1,14 @@
 package Definitions;
 
 typedef struct packed{
-
-typedef struct packed{
 	bit rst_processor;
 	bit push_result;
 	bit pop_a_v;
 	bit [3:0]processor_number;
 
 } PROCESSORS_CONTROL_SIGNALS;
+
+typedef struct packed{
 
 	bit [7:0]Row1;
 	bit [7:0]Row2;
