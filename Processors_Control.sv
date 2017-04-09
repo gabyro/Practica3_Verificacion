@@ -1,6 +1,7 @@
-include Definitions ::*;
+import Definitions ::*;
 module Processors_Control
 (
+  input clk, reset,
   input start,
   input N,
   //outputs
