@@ -34,6 +34,12 @@ typedef struct packed{
 
 } UART_FIFOS;
 
+
+typedef struct packed{
+
+	bit L_register_enable;
+
+} UART_CONTROL_SIGNALS
 // typedef bit [8:0] AdderWithCarry;
 // enum {ZERO, ONE,TWO, THREE} Cases;
 endpackage
