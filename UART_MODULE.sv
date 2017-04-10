@@ -7,7 +7,7 @@ module UART_MODULE(
 	input pop,
 	
 	//Output Ports.
-	output Tx_out
+	output Tx_out,
 	output v,
 	output UART_FIFOS fifos_out,
 	output start,
