@@ -31,7 +31,10 @@ always_comb begin : next_state_logic
         else
           next_state = IDLE;
     WIPE_FIFO:
-        next_state = PROCESSING;
+        if(N == 1)
+          next_state = S1;
+        else
+          next_state = PROCESSING;
     PROCESSING:
         if(counter_value == (N-2))
           next_state = S1;
@@ -90,10 +93,12 @@ always_comb begin
     IDLE: begin
       control = 0;
       counter_sync_rst = 1;
+      control.rst_processor = 1'b1;
     end
     WIPE_FIFO:  begin
       counter_sync_rst = 1;
       control.rst_FIFO_out = 1;
+      control.rst_processor = 1'b1;
     end
     PROCESSING:
       control.pop_a_v = 1'b1;

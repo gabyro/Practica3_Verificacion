@@ -4,10 +4,10 @@ module Processors_Array(
 	//Input Ports.
 	input clk,
 	input reset,
-	inout start,
+	input start,
 	input [7:0]v,
 	input Rows_a_FIFO Row,
-	
+
 	//Output Ports.
 	output PROCESSOR_RESULT result
 
@@ -78,7 +78,7 @@ REG3
 Processor_module PROCESSOR_1
 (
 	//Input ports.
-	
+
 	.clk(clk),
 	.reset(reset),
 	.start(start),
@@ -94,7 +94,7 @@ Processor_module PROCESSOR_1
 Processor_module PROCESSOR_2
 (
 	//Input ports.
-	
+
 	.clk(clk),
 	.reset(reset),
 	.start(REG1Out_2_REG2_wire),
@@ -109,7 +109,7 @@ Processor_module PROCESSOR_2
 Processor_module PROCESSOR_3
 (
 	//Input ports.
-	
+
 	.clk(clk),
 	.reset(reset),
 	.start(REG2Out_2_REG3_wire),
@@ -124,7 +124,7 @@ Processor_module PROCESSOR_3
 Processor_module PROCESSOR_4
 (
 	//Input ports.
-	
+
 	.clk(clk),
 	.reset(reset),
 	.start(REG3Out_2_PRO_wire),

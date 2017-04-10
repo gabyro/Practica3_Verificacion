@@ -3,8 +3,8 @@ module Practica3_Top(
 	input clk,
 	input reset,
 	input synch_rst,
-	
-	
+
+
 	//Output Ports.
 
 
@@ -17,6 +17,8 @@ bit [7:0]MUXout_2_FIFO_wire;
 bit [7:0]FIFOout_2_UARTandMUX_wire;
 bit FIFOempty_2_UART_wire;
 bit FIFOfull_2_UART_wire;
+bit FIFO_push;
+PROCESSORS_CONTROL_SIGNALS processor_control;
 
 //		UART WIRES
 
@@ -34,7 +36,7 @@ Processors_Array(
 	.start(),
 	.v(),
 	.Rows_a_FIFO Row(),
-	
+
 	//Output Ports.
 	.PROCESSOR_RESULT result(result_PROARRAY_2_BIGMUX_wire)
 
@@ -59,7 +61,7 @@ BIG_MUX
 );
 
 //------------------------ MUX ---------------------------------------------
-Multiplexers 
+Multiplexers
 #(.WORD_LENGHT(8))
 MUX
 (
@@ -67,29 +69,41 @@ MUX
 	.Selector(UARTout_2_FIFOpop_wire),
 	.Data_0(BIGMUXout_2_MUX_wire),
 	.Data_1(FIFOout_2_UARTandMUX_wire),
-	
+
 	// Output Ports
 	.Mux_Output_log(MUXout_2_FIFO_wire)
 
 );
 
 //---------------------- FIFO ----------------------------------------------
-.FIFO
+assign FIFO_push = UARTout_2_FIFOpop_wire || ;
+FIFO
 #(.WORDLENGHT(8), .Mem_lenght(8))
 FIFO_P3
 (
 
 	.data_input(MUXout_2_FIFO_wire),
-	.push(UARTout_2_FIFOpop_wire || ),
+	.push(FIFO_push),
 	.pop(UARTout_2_FIFOpop_wire),
 	.clk(clk),
 	.reset(reset),
 	.synch_rst(synch_rst),
-	
+
 	.data_out(FIFOout_2_UARTandMUX_wire),
 	.full_out(FIFOfull_2_UART_wire),
 	.empty_out(FIFOempty_2_UART_wire)
 
+);
+
+//--------------------------------Control-------------------------------------
+Processors_Control			CONTROL_PROCESSORS
+(
+  .clk(clk),
+	.reset(reset),
+  .start(),			//Falta start UART
+  .N(),					//Falta start UART
+  //outputs
+  output PROCESSORS_CONTROL_SIGNALS control
 );
 
 
