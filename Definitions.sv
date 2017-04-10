@@ -26,6 +26,13 @@ typedef struct packed{
 
 } PROCESSOR_RESULT;
 
+typedef struct packed{
+	bit [7:0]FIFO1;
+	bit [7:0]FIFO2;
+	bit [7:0]FIFO3;
+	bit [7:0]FIFO4;
+
+} UART_FIFOS;
 
 // typedef bit [8:0] AdderWithCarry;
 // enum {ZERO, ONE,TWO, THREE} Cases;
