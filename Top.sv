@@ -22,11 +22,20 @@ PROCESSORS_CONTROL_SIGNALS processor_control;
 
 //		UART WIRES
 
-bit [7:0]UARTout_2_FIFOpop_wire;
+bit UARTout_2_ONESHOT_wire;
+bit ONESHOTout_2_FIFOpop_wire;
 
 //--------------------- UART MODULE --------------------------------------
 
 
+
+//---------------------- ONE SHOT-----------------------------------------
+ONEshot oneshot(
+ .in(UARTout_2_FIFOpop_wire),
+ .clk(clk),
+ .reset(reset),
+ .out(ONESHOTout_2_FIFOpop_wire)
+);
 
 //--------------------- PROCESSORS ARRAY ---------------------------------
 Processors_Array(
@@ -66,7 +75,7 @@ Multiplexers
 MUX
 (
 	// Input Ports
-	.Selector(UARTout_2_FIFOpop_wire),
+	.Selector(ONESHOTout_2_FIFOpop_wire),
 	.Data_0(BIGMUXout_2_MUX_wire),
 	.Data_1(FIFOout_2_UARTandMUX_wire),
 
@@ -75,8 +84,9 @@ MUX
 
 );
 
+
 //---------------------- FIFO ----------------------------------------------
-assign FIFO_push = UARTout_2_FIFOpop_wire || ;
+assign FIFO_push = ONESHOTout_2_FIFOpop_wire || ;
 FIFO
 #(.WORDLENGHT(8), .Mem_lenght(8))
 FIFO_P3
@@ -84,7 +94,7 @@ FIFO_P3
 
 	.data_input(MUXout_2_FIFO_wire),
 	.push(FIFO_push),
-	.pop(UARTout_2_FIFOpop_wire),
+	.pop(ONESHOTout_2_FIFOpop_wire),
 	.clk(clk),
 	.reset(reset),
 	.synch_rst(synch_rst),

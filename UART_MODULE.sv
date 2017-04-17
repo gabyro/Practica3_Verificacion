@@ -19,8 +19,18 @@ bit [7:0]RxOut_UART_2_RGNandFIFOS_wire;
 bit Reg1out_2_FIFO3_wire;
 bit Reg2out_2_FIFO4_wire;
 bit Reg3out_2_FIFO5_wire;
+bit ONESHOTout_2_Reg1_wire;
 
 //----------------------------- CONTROL UART ------------------------------
+
+
+//----------------------------- ONE SHOT ----------------------------------
+ONEshot SHOTSHOT(
+ .in(~pop),
+ .clk(clk),
+ .reset(reset),
+ .out(ONESHOTout_2_Reg1_wire)
+);
 
 //----------------------------- UART --------------------------------------
 .UART
@@ -70,7 +80,7 @@ REGISTER_1
 	// Input Ports
 	.clk(clk),
 	.reset(reset),
-	.Data_Input(pop),
+	.Data_Input(ONESHOTout_2_Reg1_wire),
 	.enable(1'b1),
 	.sync_reset(1'b0),
 
@@ -119,8 +129,8 @@ FIFO_1
 (
 
 	.data_input(RxOut_UART_2_RGNandFIFOS_wire),
-	.push( || pop),
-	.pop(pop),
+	.push( || ONESHOTout_2_Reg1_wire),
+	.pop(ONESHOTout_2_Reg1_wire),
 	.clk(clk),
 	.reset(reset),
 	.synch_rst(),
@@ -137,8 +147,8 @@ FIFO_2
 (
 
 	.data_input(RxOut_UART_2_RGNandFIFOS_wire),
-	.push( ||pop),
-	.pop(pop),
+	.push( ||ONESHOTout_2_Reg1_wire),
+	.pop(ONESHOTout_2_Reg1_wire),
 	.clk(clk),
 	.reset(reset),
 	.synch_rst(),
