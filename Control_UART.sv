@@ -190,7 +190,6 @@ always_comb begin
 			control.UART_send_data = 8'hEF;
 		end
 		CMD3:	begin
-
 		end
 		CMD4:	begin
 			counter_sync_rst = 1'b1;
@@ -198,10 +197,10 @@ always_comb begin
 		end
 		SAVE_ROWS:	begin
 			counter_enable = Rx_interrupt;
-			control.push_FIFO2 = ( (count<N_temp) | ((count < (N_temp<<2)+N) & N_temp>4) ) & Rx_interrupt;
-			control.push_FIFO3 = ( (count< N_temp<<1) | ((count < (N_temp<<2)+(N_temp<<1)) & N_temp>4) ) & Rx_interrupt & ~control.push_FIFO2;
-			control.push_FIFO4 = ( (count<(N_temp<<1)+N_temp) | ((count < (N_temp<<2)+(N_temp<<1)+N_temp) & N_temp>4) ) & Rx_interrupt & ~control.push_FIFO3 & ~control.push_FIFO2;
-			control.push_FIFO5 = ( (count<(N_temp<<2)) | ((count < N_temp<<3) & N_temp>4) ) & Rx_interrupt & ~control.push_FIFO4 & ~control.push_FIFO3 & ~control.push_FIFO2;
+			control.push_FIFO2 = ( (count<N_temp) | ((count < (N_temp<<2)+N) & count >= N_temp<<2) ) & Rx_interrupt;
+			control.push_FIFO3 = ( (count< N_temp<<1) | ((count < (N_temp<<2)+(N_temp<<1)) & N_temp>4)  & count >= N_temp<<2) & Rx_interrupt & ~control.push_FIFO2;
+			control.push_FIFO4 = ( (count<(N_temp<<1)+N_temp) | ((count < (N_temp<<2)+(N_temp<<1)+N_temp) & N_temp>4)  & count >= N_temp<<2) & Rx_interrupt & ~control.push_FIFO3 & ~control.push_FIFO2;
+			control.push_FIFO5 = ( (count<(N_temp<<2)) | ((count < N_temp<<3) & N_temp>4)  & count >= N_temp<<2) & Rx_interrupt & ~control.push_FIFO4 & ~control.push_FIFO3 & ~control.push_FIFO2;
 		end
 		SAVE_VECTOR:	begin
 			counter_enable = 1'b1;

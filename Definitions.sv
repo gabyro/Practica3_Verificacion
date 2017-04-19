@@ -39,7 +39,6 @@ typedef struct packed{
 
 	bit L_register_enable;
 	bit N_register_enable;
-	bit rst_FIFOS;
 	bit push_FIFO1;
 	bit push_FIFO2;
 	bit push_FIFO3;

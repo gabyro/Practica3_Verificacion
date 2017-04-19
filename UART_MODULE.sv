@@ -5,6 +5,7 @@ module UART_MODULE(
 	input reset,
 	input Rx_in,
 	input pop,
+	input reset_fifos,
 	input [7:0]output_fifo_value,
 
 	//Output Ports.
@@ -110,14 +111,14 @@ FIFO_2_clks
 	.clk_pop(clk_low),		//Slow
 	.clk_push(clk_high),		//Fast
 	.reset(reset),
-	.synch_rst(control.rst_FIFOS),
+	.synch_rst(reset_fifos),
 
 	.data_out(v),
 	.full_out(),
 	.empty_out()
 );
 
-Multiplexers 
+Multiplexers
 #(.WORD_LENGHT(8))
 MUX_FIFO_V
 
@@ -126,7 +127,7 @@ MUX_FIFO_V
 	.Selector(pop),
 	.Data_0(RxOut_UART_2_RGNandFIFOS_wire),
 	.Data_1(v),
-	
+
 	// Output Ports
 	.Mux_Output_log(MUXout_2_FIFO_feedbakc_wire)
 
@@ -142,7 +143,7 @@ FIFO_2_clks
 	.clk_pop(clk_low),		//Slow
 	.clk_push(clk_high),		//Fast
 	.reset(reset),
-	.synch_rst(control.rst_FIFOS),
+	.synch_rst(reset_fifos),
 
 	.data_out(fifos_out.FIFO1),
 	.full_out(),
@@ -174,7 +175,7 @@ FIFO_2_clks
 	.clk_pop(clk_low),		//Slow
 	.clk_push(clk_high),		//Fast
 	.reset(reset),
-	.synch_rst(control.rst_FIFOS),
+	.synch_rst(reset_fifos),
 
 	.data_out(fifos_out.FIFO2),
 	.full_out(),
@@ -206,7 +207,7 @@ FIFO_2_clks
 	.clk_pop(clk_low),		//Slow
 	.clk_push(clk_high),		//Fast
 	.reset(reset),
-	.synch_rst(control.rst_FIFOS),
+	.synch_rst(reset_fifos),
 
 	.data_out(fifos_out.FIFO3),
 	.full_out(),
@@ -238,7 +239,7 @@ FIFO_2_clks
 	.clk_pop(clk_low),		//Slow
 	.clk_push(clk_high),		//Fast
 	.reset(reset),
-	.synch_rst(control.rst_FIFOS),
+	.synch_rst(reset_fifos),
 
 	.data_out(fifos_out.FIFO4),
 	.full_out(),
