@@ -2,6 +2,7 @@ package Definitions;
 
 typedef struct packed{
 	bit rst_FIFO_out;
+	bit rst_FIFO_in;
 	bit rst_processor;
 	bit push_result;
 	bit pop_a_v;

@@ -139,6 +139,7 @@ always_comb begin
         control.pop_a_v = 1'b1;
     end
     S8: begin
+		  control.rst_FIFO_in = 1'b1;
         control.push_result = 1'b1;
         control.processor_number = 2'b11;
         control.pop_a_v = 1'b1;
