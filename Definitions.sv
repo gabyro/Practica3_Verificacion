@@ -47,6 +47,7 @@ typedef struct packed{
 	bit push_FIFO5;
 	bit pop_FIFO_out;
 	bit UART_send;
+	bit start_multi;
 	bit [7:0]UART_send_data;
 
 } UART_CONTROL_SIGNALS;

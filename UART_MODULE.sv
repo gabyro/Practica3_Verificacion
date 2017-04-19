@@ -247,5 +247,6 @@ FIFO_2_clks
 );
 
 assign fifo_out_pop = control.pop_FIFO_out;
+assign start = control.start_multi;
 
 endmodule

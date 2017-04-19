@@ -4,7 +4,7 @@ module UART_MODULE_TB;
   reg clk = 0;
   reg reset = 1;
   reg send = 0;
-  reg value=1;
+  reg value = 1;
 
   reg [7:0]numero = 8'b1101_1011;
 
@@ -15,6 +15,7 @@ module UART_MODULE_TB;
   	.Rx_in(value),
   	.pop(1'b0),
   	.output_fifo_value(8'b1010_1010),
+    .reset_fifos(1'b0),
 
   	//Output Ports.
   	.Tx_out(),
@@ -500,7 +501,125 @@ module UART_MODULE_TB;
       #4  value = numero[7];
       #4 value = ^numero;
       #4 value = 1;
+      //---------------------------Comando 4 vector------------------------------
+      #100
+      //Start
+      #4 value = 0;
+         numero = 'hFE;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //L
+      #40 value = 0;
+         numero = 'h06;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //CMD
+      #40 value = 0;
+         numero = 'h04;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //datos
+      #40 value = 0;
+         numero = 'h00;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
 
+      #40 value = 0;
+         numero = 'h01;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h02;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h03;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h04;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //END
+      #40 value = 0;
+         numero = 'hEF;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
       //---------------------------Comando 2 resultado------------------------------
       #100
       //Start

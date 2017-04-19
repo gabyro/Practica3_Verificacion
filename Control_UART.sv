@@ -19,7 +19,7 @@ bit counter_enable;
 bit [5:0]count;
 bit [6:0]N_temp;
 
-enum int unsigned {IDLE, LENGHT, CMD, CMD1, CMD2, CMD3, CMD4, SEND_FE, SEND_FE2, SEND_L, SEND_L2, FIFO_SEND, FIFO_POP_WAIT_TX, FIFO_POP, SEND_EF, SEND_EF2, SAVE_ROWS, SAVE_VECTOR} state, next_state;
+enum int unsigned {IDLE, LENGHT, CMD, CMD1, CMD2, CMD3, CMD4, SEND_FE, SEND_FE2, SEND_L, SEND_L2, FIFO_SEND, FIFO_POP_WAIT_TX, FIFO_POP, SEND_EF, SEND_EF2, SAVE_ROWS, SAVE_VECTOR, START_MULTI} state, next_state;
 
 assign N_temp = {3'b0,N};
 
@@ -126,10 +126,12 @@ always_comb begin : next_state_logic
 				else
 					next_state = IDLE;
 		SAVE_VECTOR:
-			if(count < N-1)
+			if(count < N)
 				next_state = SAVE_VECTOR;
 			else
-				next_state = IDLE;
+				next_state = START_MULTI;
+		START_MULTI:
+			next_state = IDLE;
 	endcase
 end
 
@@ -154,7 +156,8 @@ always_comb begin
 			control.N_register_enable = 1;
 		end
 		CMD2:	begin
-
+			counter_sync_rst = 1'b1;
+			counter_enable = 1'b1;
 		end
 		SEND_FE:	begin
 			control.UART_send = 1;
@@ -203,10 +206,11 @@ always_comb begin
 			control.push_FIFO5 = ( (count<(N_temp<<2)) | ((count < N_temp<<3) & N_temp>4)  & count >= N_temp<<2) & Rx_interrupt & ~control.push_FIFO4 & ~control.push_FIFO3 & ~control.push_FIFO2;
 		end
 		SAVE_VECTOR:	begin
-			counter_enable = 1'b1;
+			counter_enable = Rx_interrupt;
 			control.push_FIFO1 = 1'b1 & Rx_interrupt;
 		end
-
+		START_MULTI:
+			control.start_multi = 1'b1;
 	endcase
 end
 
