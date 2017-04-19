@@ -18,6 +18,7 @@ module UART_MODULE(
 );
 
 bit [7:0]RxOut_UART_2_RGNandFIFOS_wire;
+bit [7:0]MUXout_2_FIFO_feedbakc_wire;
 bit tx_ready;
 bit [7:0]L;
 //-------wires fifo registers--------------------
@@ -103,7 +104,7 @@ FIFO_2_clks
 #(.WORDLENGHT(8), .Mem_lenght(16))			FIFO_VECTOR
 (
 
-	.data_input(RxOut_UART_2_RGNandFIFOS_wire),
+	.data_input(MUXout_2_FIFO_feedbakc_wire),
 	.push(control.push_FIFO1),
 	.pop(pop),
 	.clk_pop(clk_low),		//Slow
@@ -114,6 +115,21 @@ FIFO_2_clks
 	.data_out(v),
 	.full_out(),
 	.empty_out()
+);
+
+Multiplexers 
+#(.WORD_LENGHT(8))
+MUX_FIFO_V
+
+(
+	// Input Ports
+	.Selector(pop),
+	.Data_0(RxOut_UART_2_RGNandFIFOS_wire),
+	.Data_1(v),
+	
+	// Output Ports
+	.Mux_Output_log(MUXout_2_FIFO_feedbakc_wire)
+
 );
 
 //--------------------------FIFO row 1-----------------------------------------
