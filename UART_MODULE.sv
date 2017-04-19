@@ -36,6 +36,7 @@ CONTROL_UART		CONTROL(
 	.Rx_interrupt(UART_Rx_interupt),
 	.Rx_value(RxOut_UART_2_RGNandFIFOS_wire),
 	.N(n),
+	.L(L),
 	.output_fifo_value(output_fifo_value),
 	//Output Ports.
 	.control(control)

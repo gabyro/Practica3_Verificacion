@@ -108,7 +108,270 @@ module UART_MODULE_TB;
       #4 value = ^numero;
       #4 value = 1;
 
-      //---------------------------Comando 2------------------------------
+      //---------------------------Comando 4 matriz------------------------------
+      #100
+      //Start
+      #4 value = 0;
+         numero = 'hFE;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //L
+      #40 value = 0;
+         numero = 'h12;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //CMD
+      #40 value = 0;
+         numero = 'h04;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //datos
+      #40 value = 0;
+         numero = 'h00;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h01;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h02;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h03;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h04;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h05;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h06;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h07;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h08;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h09;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h0a;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h0b;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h0c;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h0d;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h0e;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      #40 value = 0;
+         numero = 'h0f;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+      //END
+      #40 value = 0;
+         numero = 'hEF;
+      #4  value = numero[0];
+      #4  value = numero[1];
+      #4  value = numero[2];
+      #4  value = numero[3];
+      #4  value = numero[4];
+      #4  value = numero[5];
+      #4  value = numero[6];
+      #4  value = numero[7];
+      #4 value = ^numero;
+      #4 value = 1;
+
+      //---------------------------Comando 2 resultado------------------------------
       #100
       //Start
       #4 value = 0;
@@ -162,6 +425,7 @@ module UART_MODULE_TB;
       #4  value = numero[7];
       #4 value = ^numero;
       #4 value = 1;
+
     end
 
 endmodule
