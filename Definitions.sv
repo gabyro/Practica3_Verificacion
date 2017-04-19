@@ -38,8 +38,30 @@ typedef struct packed{
 typedef struct packed{
 
 	bit L_register_enable;
+	bit N_register_enable;
+	bit rst_FIFOS;
+	bit push_FIFO1;
+	bit push_FIFO2;
+	bit push_FIFO3;
+	bit push_FIFO4;
+	bit push_FIFO5;
+	bit pop_FIFO_out;
+	bit UART_send;
+	bit [7:0]UART_send_data;
 
-} UART_CONTROL_SIGNALS
+} UART_CONTROL_SIGNALS;
 // typedef bit [8:0] AdderWithCarry;
 // enum {ZERO, ONE,TWO, THREE} Cases;
+
+ /*Log Function*/
+     function integer CeilLog2;
+       input integer data;
+       integer i,result;
+       begin
+          for(i=0; 2**i < data; i=i+1)
+             result = i + 1;
+          CeilLog2 = result;
+       end
+    endfunction
+
 endpackage

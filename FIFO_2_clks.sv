@@ -1,14 +1,15 @@
-module FIFO
+module FIFO_2_clks
 #(parameter WORDLENGHT = 8, Mem_lenght = 8)
 (
 
 	input [WORDLENGHT-1:0]data_input,
 	input push,
 	input pop,
-	input clk,
+	input clk_pop,		//Slow
+	input clk_push,		//Fast
 	input reset,
 	input synch_rst,
-	
+
 	output [WORDLENGHT-1:0]data_out,
 	output full_out,
 	output empty_out
@@ -32,16 +33,16 @@ bit  Flag_full_wire;
 //--------------------Pop counter module---------------------
 assign POP_counter_enable_wire = (~empty_out) && pop;
 
-CounterParameter 
+CounterParameter
 #(	.Maximum_Value(Mem_lenght) )    POP_module
 
 (
 	// Input Ports
-	.clk(clk),
+	.clk(clk_pop),
 	.reset(reset),
 	.enable(POP_counter_enable_wire),
 	.SyncReset(synch_rst||POP_SYNC_RST_WIRE),
-	
+
 	// Output Ports
 	.Flag(POP_SYNC_RST_WIRE),
 	.Counting(POP_counter_out_wire)
@@ -51,23 +52,23 @@ CounterParameter
 
 assign PUSH_counter_enable_wire = (~Flag_full_wire) & push;
 
-CounterParameter 
+CounterParameter
 #(	.Maximum_Value(Mem_lenght) )       PUSH_module
 
 (
 	// Input Ports
-	.clk(clk),
+	.clk(clk_push),
 	.reset(reset),
 	.enable(PUSH_counter_enable_wire),
 	.SyncReset(synch_rst || PUSH_SYNC_RST_WIRE),
-	
+
 	// Output Ports
 	.Flag(PUSH_SYNC_RST_WIRE),
 	.Counting(PUSH_counter_out_wire)
 );
 
 //------------------------- Data-----------------------------
-CounterParameterUpDown 
+CounterParameterUpDown
 #(
 	// Parameter Declarations
 	.Maximum_Value(Mem_lenght+1)
@@ -76,12 +77,12 @@ DATA_module
 
 (
 	// Input Ports
-	.clk(clk),
+	.clk(clk_push),
 	.reset(reset),
 	.up(PUSH_counter_enable_wire),
 	.down(POP_counter_enable_wire),
 	.SyncReset(synch_rst),
-	
+
 	// Output Ports
 	.Flag(Flag_full_wire),
 	.Counting(DATA_counter_wire)
@@ -89,27 +90,23 @@ DATA_module
 
 //----------------------------ROM--------------------------------
 
-simple_dual_port_ram_single_clock 
-#(
-	.DATA_WIDTH(WORDLENGHT), 
-	.ADDR_WIDTH(CeilLog2(Mem_lenght))
-  )
-  MEMORY
+simple_dual_port_ram_dual_clock
+#(	.DATA_WIDTH(WORDLENGHT), 	.ADDR_WIDTH(CeilLog2(Mem_lenght)) )			 MEMORY
 (
 	.data(data_input),
-	.read_addr(POP_counter_out_wire), 
+	.read_addr(POP_counter_out_wire),
 	.write_addr(PUSH_counter_out_wire),
-	.we(PUSH_counter_enable_wire), 
-	.clk(clk),
+	.we(PUSH_counter_enable_wire),
+	.read_clock(clk_pop),
+	.write_clock(clk_push),
 	.q(data_out)
 );
-
 //------------------------Assign OUTPUTS-------------------------
 
 assign empty_out = ~(|DATA_counter_wire);
 assign full_out = Flag_full_wire;
 
-   
+
  /*Log Function*/
      function integer CeilLog2;
        input integer data;

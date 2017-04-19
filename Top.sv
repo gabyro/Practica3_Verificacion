@@ -1,8 +1,9 @@
-module Practica3_Top(
+module Top(
 	//Input Ports.
-	input clk,
+	input clk_low,
+	input clk_high,
 	input reset,
-	input synch_rst,
+	input synch_rst
 
 
 	//Output Ports.
@@ -20,45 +21,36 @@ bit FIFOfull_2_UART_wire;
 bit FIFO_push;
 PROCESSORS_CONTROL_SIGNALS processor_control;
 
-//		UART WIRES
-
-bit UARTout_2_ONESHOT_wire;
-bit ONESHOTout_2_FIFOpop_wire;
+//-------------------------fifo wires-----------------------------------
+bit ONESHOTout_2_FIFOpush_wire;
 
 //--------------------- UART MODULE --------------------------------------
 
 
 
-//---------------------- ONE SHOT-----------------------------------------
-ONEshot oneshot(
- .in(UARTout_2_FIFOpop_wire),
- .clk(clk),
- .reset(reset),
- .out(ONESHOTout_2_FIFOpop_wire)
-);
 
 //--------------------- PROCESSORS ARRAY ---------------------------------
-Processors_Array(
+Processors_Array		PROCESSORS(
 	//Input Ports.
-	.clk(clk),
+	.clk(clk_low),
 	.reset(reset),
-	.start(),
-	.v(),
-	.Rows_a_FIFO Row(),
+	.start(processor_control.rst_processor),
+	.v(100),			//Falta conectar a UART
+	.Row(100),			//Falta conectar a UART
 
 	//Output Ports.
-	.PROCESSOR_RESULT result(result_PROARRAY_2_BIGMUX_wire)
+	.result(result_PROARRAY_2_BIGMUX_wire)
 
 );
 
 //---------------------- MUX 4 A 1 ----------------------------------------
-.Multiplexers_4_to_1
+Multiplexers_4_to_1
 #(.WORD_LENGHT(8))
 BIG_MUX
 
 (
 	// Input Ports
-	.Selector(),
+	.Selector(processor_control.processor_number),
 	.Data_0(result_PROARRAY_2_BIGMUX_wire.result_PRO1),
 	.Data_1(result_PROARRAY_2_BIGMUX_wire.result_PRO2),
 	.Data_2(result_PROARRAY_2_BIGMUX_wire.result_PRO3),
@@ -75,7 +67,7 @@ Multiplexers
 MUX
 (
 	// Input Ports
-	.Selector(ONESHOTout_2_FIFOpop_wire),
+	.Selector(UARTout_2_FIFOpop_wire),
 	.Data_0(BIGMUXout_2_MUX_wire),
 	.Data_1(FIFOout_2_UARTandMUX_wire),
 
@@ -84,9 +76,17 @@ MUX
 
 );
 
+//---------------------- ONE SHOT PUSH CONTROL-----------------------------------------
+ONEshot oneshot(
+ .in(processor_control.push_result),
+ .clk(clk_high),
+ .reset(reset),
+ .out(ONESHOTout_2_FIFOpush_wire)
+);
+
 
 //---------------------- FIFO ----------------------------------------------
-assign FIFO_push = ONESHOTout_2_FIFOpop_wire || ;
+assign FIFO_push = UARTout_2_FIFOpop_wire || ONESHOTout_2_FIFOpush_wire;
 FIFO
 #(.WORDLENGHT(8), .Mem_lenght(8))
 FIFO_P3
@@ -94,10 +94,10 @@ FIFO_P3
 
 	.data_input(MUXout_2_FIFO_wire),
 	.push(FIFO_push),
-	.pop(ONESHOTout_2_FIFOpop_wire),
-	.clk(clk),
+	.pop(UARTout_2_FIFOpop_wire),
+	.clk(clk_high),
 	.reset(reset),
-	.synch_rst(synch_rst),
+	.synch_rst(processor_control.rst_FIFO_out),
 
 	.data_out(FIFOout_2_UARTandMUX_wire),
 	.full_out(FIFOfull_2_UART_wire),
@@ -108,12 +108,12 @@ FIFO_P3
 //--------------------------------Control-------------------------------------
 Processors_Control			CONTROL_PROCESSORS
 (
-  .clk(clk),
+  .clk(clk_low),
 	.reset(reset),
-  .start(),			//Falta start UART
-  .N(),					//Falta start UART
+  .start(1'b1),			//Falta start UART
+  .N(6),					//Falta start UART
   //outputs
-  output PROCESSORS_CONTROL_SIGNALS control
+  .control(processor_control)
 );
 
 
