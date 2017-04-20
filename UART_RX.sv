@@ -71,7 +71,7 @@ Register
  );
 
  //----------------Interruption register--------------------
- assign received_wire = RX_flag_wire & ~parity_wire;
+ assign received_wire = RX_flag_wire;
  Register
   #(.Word_Length(1))     INTERRUPT_REGISTER
   (

@@ -149,7 +149,7 @@ end
 
 //---------------------------Counter----------------------------------------
 CounterParameter
-#(.Maximum_Value())       COUNTER
+#(.Maximum_Value(31))       COUNTER
 (
 	// Input Ports
 	.clk(clk),

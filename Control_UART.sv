@@ -19,7 +19,7 @@ bit counter_enable;
 bit [5:0]count;
 bit [6:0]N_temp;
 
-enum int unsigned {IDLE, LENGHT, CMD, CMD1, CMD2, CMD3, CMD4, SEND_FE, SEND_FE2, SEND_L, SEND_L2, FIFO_SEND, FIFO_POP_WAIT_TX, FIFO_POP, SEND_EF, SEND_EF2, SAVE_ROWS, SAVE_VECTOR, START_MULTI} state, next_state;
+enum int unsigned {IDLE, LENGHT, CMD, CMD1, CMD2, CMD3, CMD4, SEND_FE, SEND_FE2, SEND_L, SEND_L2, FIFO_SEND, FIFO_POP_WAIT_TX, FIFO_POP, SEND_EF, SEND_EF2, SAVE_ROWS, SAVE_VECTOR, START_MULTI} state /*synthesis keep*/, next_state /*synthesis keep*/;
 
 assign N_temp = {3'b0,N};
 

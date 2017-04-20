@@ -1,3 +1,4 @@
+import Definitions ::*;
 module Top(
 	//Input Ports.
 	input clk_low,
@@ -7,26 +8,27 @@ module Top(
 	input Rx_in,
 
 	//Output Ports.
-	output Tx_out,
+	output Tx_out
 
 );
 
 
-PROCESSOR_RESULT result_PROARRAY_2_BIGMUX_wire;
+PROCESSOR_RESULT result_PROARRAY_2_BIGMUX_wire /*synthesis keep*/;
 bit [7:0]BIGMUXout_2_MUX_wire;
 bit [7:0]MUXout_2_FIFO_wire;
 bit [7:0]FIFOout_2_UARTandMUX_wire;
 bit FIFOempty_2_UART_wire;
 bit FIFOfull_2_UART_wire;
 bit FIFO_push;
-bit [7:0]UART_V_2_PROARRAY_wire;
-bit UARTModule_START_2_SYNCH_wire;
+bit [7:0]UART_V_2_PROARRAY_wire /*synthesis keep*/;
+bit UARTModule_START_2_SYNCH_wire /*synthesis keep*/;
+bit UARTModule_START_SYNCH_2_CONTROL_wire;
 bit [3:0]UARTModule_N_2_Control_wire;
 bit UARTout_2_FIFOpop_wire;
 
 
-PROCESSORS_CONTROL_SIGNALS processor_control;
-Rows_a_FIFO struct_fifos_result;
+PROCESSORS_CONTROL_SIGNALS processor_control /*synthesis keep*/;
+Rows_a_FIFO struct_fifos_result /*synthesis keep*/;
 
 //-------------------------fifo wires-------------------------------------
 bit ONESHOTout_2_FIFOpush_wire;
@@ -36,7 +38,7 @@ bit ONESHOTout_2_FIFOpush_wire;
 UART_MODULE UART_MOD
 (
 	//Input Ports.
-	.clk_low(clk_low), 
+	.clk_low(clk_low),
 	.clk_high(clk_high),
 	.reset(reset),
 	.Rx_in(Rx_in),
@@ -60,7 +62,7 @@ syncronizer_start SYNCH
   .clk_low(clk_low),
   .clk_high(clk_high),
   .rst(reset),
-  .synch()
+  .synch(UARTModule_START_SYNCH_2_CONTROL_wire)
   );
 
 
@@ -72,7 +74,7 @@ Processors_Array		PROCESSORS(
 	.reset(reset),
 	.start(processor_control.rst_processor),
 	.v(UART_V_2_PROARRAY_wire),
-	.Row(struct_fifos_result),		
+	.Row(struct_fifos_result),
 
 	//Output Ports.
 	.result(result_PROARRAY_2_BIGMUX_wire)
@@ -116,7 +118,7 @@ MUX
 ONEshot oneshot(
  .in(processor_control.push_result),
  .clk(clk_high),
- .reset(reset),
+ .reset(~clk_low),
  .out(ONESHOTout_2_FIFOpush_wire)
 );
 
@@ -146,7 +148,7 @@ Processors_Control			CONTROL_PROCESSORS
 (
    .clk(clk_low),
 	.reset(reset),
-   .start(1'b1),			//Falta start UART
+   .start(UARTModule_START_SYNCH_2_CONTROL_wire),			//Falta start UART
    .N(UARTModule_N_2_Control_wire),					//Falta start UART
   //outputs
    .control(processor_control)

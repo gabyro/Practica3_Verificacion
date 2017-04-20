@@ -35,4 +35,6 @@ module syncronizer_start
     // Output Ports
     .Data_Output(Reg2out_2_rstReg1_wire)
   );
+  
+  assign synch = Reg2out_2_rstReg1_wire;
 endmodule

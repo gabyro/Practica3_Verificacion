@@ -1,36 +1,39 @@
-module UART_MODULE_TB;
+import Definitions ::*;
+module TOP_TB;
   localparam  WORD_LENGHT = 8;
    // Input Ports
-  reg clk = 0;
+  reg clk_low = 0;
+  reg clk_high = 0;
   reg reset = 1;
   reg send = 0;
   reg value = 1;
 
   reg [7:0]numero = 8'b1101_1011;
 
-  UART_MODULE   DUT(
+Top   DUT(
   	//Input Ports.
-  	.clk_low(clk), .clk_high(clk),
+  	.clk_low(clk_low),
+  	.clk_high(clk_high),
   	.reset(reset),
+  	.synch_rst(1'b0),
   	.Rx_in(value),
-  	.pop(1'b0),
-  	.output_fifo_value(8'b1010_1010),
-    .reset_fifos(1'b0),
 
   	//Output Ports.
-  	.Tx_out(),
-  	.v(),
-  	.fifos_out(),
-  	.start(),
-  	.fifo_out_pop(),
-  	.n()
+  	.Tx_out()
 
   );
 
   /*********************************************************/
   initial // Clock generator
     begin
-      forever #2 clk = !clk;
+      forever #30 clk_low = !clk_low;
+    end
+
+    initial begin// Clock generator
+    #6
+      begin
+        forever #2 clk_high = !clk_high;
+      end
     end
   /*********************************************************/
   initial begin // reset generator
@@ -621,7 +624,7 @@ module UART_MODULE_TB;
       #4 value = ^numero;
       #4 value = 1;
       //---------------------------Comando 2 resultado------------------------------
-      #100
+      #10000
       //Start
       #4 value = 0;
          numero = 'hFE;

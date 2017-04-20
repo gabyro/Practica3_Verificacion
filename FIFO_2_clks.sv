@@ -2,7 +2,7 @@ module FIFO_2_clks
 #(parameter WORDLENGHT = 8, Mem_lenght = 8)
 (
 
-	input [WORDLENGHT-1:0]data_input,
+	input [WORDLENGHT-1:0]data_input /*synthesis keep*/,
 	input push,
 	input pop,
 	input clk_pop,		//Slow
@@ -17,18 +17,25 @@ module FIFO_2_clks
 );
 
 
-bit POP_counter_enable_wire;
-bit PUSH_counter_enable_wire;
+bit POP_counter_enable_wire /*synthesis keep*/;
+bit PUSH_counter_enable_wire /*synthesis keep*/;
 
-bit [CeilLog2(Mem_lenght)-1:0] POP_counter_out_wire;
-bit [CeilLog2(Mem_lenght)-1:0] PUSH_counter_out_wire;
-bit [CeilLog2(Mem_lenght):0] DATA_counter_wire;
+bit [CeilLog2(Mem_lenght)-1:0] POP_counter_out_wire /*synthesis keep*/;
+bit [CeilLog2(Mem_lenght)-1:0] PUSH_counter_out_wire /*synthesis keep*/;
+bit [CeilLog2(Mem_lenght):0] DATA_counter_wire /*synthesis keep*/;
 
 bit POP_SYNC_RST_WIRE;
 bit PUSH_SYNC_RST_WIRE;
 
 bit  Flag_full_wire;
+bit pop_fast_wire;
 
+ONEshot 	ONESHOT_POP(
+.in(pop),
+.clk(clk_push),
+.reset(reset),
+.out(pop_fast_wire)
+);
 
 //--------------------Pop counter module---------------------
 assign POP_counter_enable_wire = (~empty_out) && pop;
@@ -80,7 +87,7 @@ DATA_module
 	.clk(clk_push),
 	.reset(reset),
 	.up(PUSH_counter_enable_wire),
-	.down(POP_counter_enable_wire),
+	.down((~empty_out) && pop_fast_wire),
 	.SyncReset(synch_rst),
 
 	// Output Ports
@@ -89,16 +96,14 @@ DATA_module
 );
 
 //----------------------------ROM--------------------------------
-
-simple_dual_port_ram_dual_clock
-#(	.DATA_WIDTH(WORDLENGHT), 	.ADDR_WIDTH(CeilLog2(Mem_lenght)) )			 MEMORY
+simple_dual_port_ram_single_clock
+#(	.DATA_WIDTH(WORDLENGHT), 	.ADDR_WIDTH(CeilLog2(Mem_lenght))  )  MEMORY
 (
 	.data(data_input),
 	.read_addr(POP_counter_out_wire),
 	.write_addr(PUSH_counter_out_wire),
 	.we(PUSH_counter_enable_wire),
-	.read_clock(clk_pop),
-	.write_clock(clk_push),
+	.clk(clk_push),
 	.q(data_out)
 );
 //------------------------Assign OUTPUTS-------------------------

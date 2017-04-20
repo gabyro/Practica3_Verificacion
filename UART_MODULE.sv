@@ -28,6 +28,7 @@ bit fifo_row_3_pop;
 bit fifo_row_4_pop;
 UART_CONTROL_SIGNALS control;
 bit UART_Rx_interupt;
+bit ONEshot_2_push_fifo_wire;
 
 //----------------------------- CONTROL UART ------------------------------
 CONTROL_UART		CONTROL(
@@ -100,13 +101,20 @@ REGISTER_L
 	.Data_Output(L)
 );
 
+ONEshot oneshot_push(
+ .in(pop),
+ .clk(clk_high),
+ .reset(~clk_low),
+ .out(ONEshot_2_push_fifo_wire)
+);
+
 //--------------------------FIFO vector-----------------------------------------
 FIFO_2_clks
 #(.WORDLENGHT(8), .Mem_lenght(16))			FIFO_VECTOR
 (
 
 	.data_input(MUXout_2_FIFO_feedbakc_wire),
-	.push(control.push_FIFO1),
+	.push(ONEshot_2_push_fifo_wire|control.push_FIFO1),
 	.pop(pop),
 	.clk_pop(clk_low),		//Slow
 	.clk_push(clk_high),		//Fast
