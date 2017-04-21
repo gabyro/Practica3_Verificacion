@@ -47,7 +47,7 @@ CounterParameter
 	// Input Ports
 	.clk(clk_pop),
 	.reset(reset),
-	.enable(POP_counter_enable_wire),
+	.enable(synch_rst||POP_counter_enable_wire),
 	.SyncReset(synch_rst||POP_SYNC_RST_WIRE),
 
 	// Output Ports
@@ -66,7 +66,7 @@ CounterParameter
 	// Input Ports
 	.clk(clk_push),
 	.reset(reset),
-	.enable(PUSH_counter_enable_wire),
+	.enable(synch_rst||PUSH_counter_enable_wire),
 	.SyncReset(synch_rst || PUSH_SYNC_RST_WIRE),
 
 	// Output Ports

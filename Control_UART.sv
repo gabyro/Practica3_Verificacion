@@ -19,7 +19,7 @@ bit counter_enable;
 bit [5:0]count;
 bit [6:0]N_temp;
 
-enum int unsigned {IDLE, LENGHT, CMD, CMD1, CMD2, CMD3, CMD4, SEND_FE, SEND_FE2, SEND_L, SEND_L2, FIFO_SEND, FIFO_POP_WAIT_TX, FIFO_POP, SEND_EF, SEND_EF2, SAVE_ROWS, SAVE_VECTOR, START_MULTI} state /*synthesis keep*/, next_state /*synthesis keep*/;
+enum int unsigned {IDLE, LENGHT, CMD, CMD1, CMD2, CMD3, CMD4, SEND_FE, SEND_FE2, SEND_L, SEND_L2, SEND_CMD, SEND_CMD2, FIFO_SEND, FIFO_POP_WAIT_TX, FIFO_POP, SEND_EF, SEND_EF2, SAVE_ROWS, SAVE_VECTOR, START_MULTI} state /*synthesis keep*/, next_state /*synthesis keep*/;
 
 assign N_temp = {3'b0,N};
 
@@ -85,9 +85,19 @@ always_comb begin : next_state_logic
 						next_state = SEND_L2;
 		SEND_L2:
         if(Tx_ready)
-          next_state = FIFO_SEND;
+          next_state = SEND_CMD;
         else
           next_state = SEND_L2;
+		SEND_CMD:
+				if(Tx_ready)
+						next_state = SEND_CMD;
+				else
+						next_state = SEND_CMD2;
+		SEND_CMD2:
+				if(Tx_ready)
+						next_state = FIFO_SEND;
+				else
+						next_state = SEND_CMD2;
     FIFO_SEND:
 				  if(Tx_ready)
 						next_state = FIFO_SEND;
@@ -172,6 +182,14 @@ always_comb begin
 		end
 		SEND_L2:	begin
 			control.UART_send_data = N+1;
+			counter_sync_rst = 1'b1;
+		end
+		SEND_CMD:	begin
+			control.UART_send = 1;
+			control.UART_send_data = 'h04;
+		end
+		SEND_CMD2:	begin
+			control.UART_send_data = 'h04;
 			counter_sync_rst = 1'b1;
 		end
 		FIFO_SEND:	begin

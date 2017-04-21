@@ -11,7 +11,7 @@ module Processors_Control
 bit counter_sync_rst;
 bit [4:0]counter_value;
 
-enum int unsigned {IDLE, WIPE_FIFO, PROCESSING, S1, S2, S3, S4, S5, S6, S7, S8} state, next_state;
+enum int unsigned {IDLE, WIPE_FIFO, PROCESSING, S1, S2, S3, S4, S5, S6, S7, S8, RESET_FIFOS} state, next_state;
 
 //-----------------Cambio de estado secuencial---------------------
 always_ff@(posedge clk or negedge reset) begin
@@ -46,38 +46,40 @@ always_comb begin : next_state_logic
         if(N > 1)
           next_state = S2;
         else
-          next_state = IDLE;
+          next_state = RESET_FIFOS;
     S2:
         if(N > 2)
           next_state = S3;
         else
-          next_state = IDLE;
+          next_state = RESET_FIFOS;
     S3:
         if(N > 3)
           next_state = S4;
         else
-          next_state = IDLE;
+          next_state = RESET_FIFOS;
     S4:
         if(N > 4)
           next_state = PROCESSING;
         else
-          next_state = IDLE;
+          next_state = RESET_FIFOS;
     S5:
         if(N > 5)
           next_state = S6;
         else
-          next_state = IDLE;
+          next_state = RESET_FIFOS;
     S6:
         if(N > 6)
           next_state = S7;
         else
-          next_state = IDLE;
+          next_state = RESET_FIFOS;
     S7:
         if(N > 7)
           next_state = S8;
         else
-          next_state = IDLE;
+          next_state = RESET_FIFOS;
     S8:
+        next_state = RESET_FIFOS;
+    RESET_FIFOS:
         next_state = IDLE;
 	endcase
 end
@@ -139,12 +141,13 @@ always_comb begin
         control.pop_a_v = 1'b1;
     end
     S8: begin
-		  control.rst_FIFO_in = 1'b1;
         control.push_result = 1'b1;
         control.processor_number = 2'b11;
         control.pop_a_v = 1'b1;
     end
-	endcase
+    RESET_FIFOS:
+        control.rst_FIFO_in = 1'b1;
+    endcase
 end
 
 //---------------------------Counter----------------------------------------

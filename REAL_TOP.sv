@@ -22,7 +22,7 @@ PLL NUESTRO_PLL(
 	);
 
 Clk_Divider
-	#(.Freq_in(1000000), .Freq_out(115200))		DIVISOR_115
+	#(.Freq_in(1000000), .Freq_out(9600))		DIVISOR_115
 	(
 	//Input ports
 	.clk_FPGA(clk_1MHZ),

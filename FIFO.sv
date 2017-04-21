@@ -8,7 +8,7 @@ module FIFO
 	input clk,
 	input reset,
 	input synch_rst,
-	
+
 	output [WORDLENGHT-1:0]data_out,
 	output full_out,
 	output empty_out
@@ -39,7 +39,7 @@ CounterParameter
 	// Input Ports
 	.clk(clk),
 	.reset(reset),
-	.enable(POP_counter_enable_wire),
+	.enable(synch_rst | POP_counter_enable_wire),
 	.SyncReset(synch_rst||POP_SYNC_RST_WIRE),
 
 	// Output Ports
@@ -58,7 +58,7 @@ CounterParameter
 	// Input Ports
 	.clk(clk),
 	.reset(reset),
-	.enable(PUSH_counter_enable_wire),
+	.enable(synch_rst | PUSH_counter_enable_wire),
 	.SyncReset(synch_rst || PUSH_SYNC_RST_WIRE),
 
 	// Output Ports
