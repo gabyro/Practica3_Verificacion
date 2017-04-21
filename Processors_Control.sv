@@ -9,7 +9,7 @@ module Processors_Control
 );
 //--------------------------Wires--------------------------------------
 bit counter_sync_rst;
-bit [4:0]counter_value;
+bit [11:0]counter_value;
 
 enum int unsigned {IDLE, WIPE_FIFO, PROCESSING, S1, S2, S3, S4, S5, S6, S7, S8, RESET_FIFOS} state, next_state;
 
@@ -152,7 +152,7 @@ end
 
 //---------------------------Counter----------------------------------------
 CounterParameter
-#(.Maximum_Value(31))       COUNTER
+#(.Maximum_Value(255))       COUNTER
 (
 	// Input Ports
 	.clk(clk),

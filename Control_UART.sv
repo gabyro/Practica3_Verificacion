@@ -16,7 +16,7 @@ module CONTROL_UART(
 //------------------------------Counter wires----------------------------------
 bit counter_sync_rst;
 bit counter_enable;
-bit [5:0]count;
+bit [6:0]count;
 bit [6:0]N_temp;
 
 enum int unsigned {IDLE, LENGHT, CMD, CMD1, CMD2, CMD3, CMD4, SEND_FE, SEND_FE2, SEND_L, SEND_L2, SEND_CMD, SEND_CMD2, FIFO_SEND, FIFO_POP_WAIT_TX, FIFO_POP, SEND_EF, SEND_EF2, SAVE_ROWS, SAVE_VECTOR, START_MULTI} state /*synthesis keep*/, next_state /*synthesis keep*/;
@@ -234,7 +234,7 @@ end
 
 
 CounterParameter
-#(.Maximum_Value (64))				COUNTER
+#(.Maximum_Value (65))				COUNTER
 (
 	// Input Ports
 	.clk(clk),
